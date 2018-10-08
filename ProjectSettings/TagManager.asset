@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Ship
   layers:
   - Default
   - TransparentFX
@@ -40,4 +41,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Ships
+    uniqueID: 2077732921
+    locked: 0
+  - name: Guns
+    uniqueID: 1865525395
+    locked: 0
+  - name: Shots
+    uniqueID: 778783511
     locked: 0

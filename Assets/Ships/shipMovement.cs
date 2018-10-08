@@ -10,6 +10,7 @@ public class shipMovement : MonoBehaviour {
     public float rotationalAcceleration;
     public float currentForwardSpeed;
     public float currentRotationalSpeed;
+    public float distanceToPointCancelled;
     
     List<Vector2> movementQueue;
     List<GameObject> movementLines;
@@ -29,7 +30,7 @@ public class shipMovement : MonoBehaviour {
             if (currentForwardSpeed != 0)
             {
                 currentForwardSpeed -= Mathf.Abs(forwardAcceleration * Time.deltaTime);
-                if (currentForwardSpeed < 0.01)
+                if (currentForwardSpeed < 0.1)
                     currentForwardSpeed = 0;
 
                 transform.Translate(Vector3.right * (currentForwardSpeed * Time.deltaTime));
@@ -61,7 +62,7 @@ public class shipMovement : MonoBehaviour {
          */
 
         var distanceToTarget = Mathf.Abs((targetPosition - (Vector2)transform.position).magnitude);
-        if(distanceToTarget < 5)
+        if(distanceToTarget < distanceToPointCancelled)
         {
             var moveLine = movementLines[0];
             movementLines.RemoveAt(0);
@@ -74,7 +75,7 @@ public class shipMovement : MonoBehaviour {
 
         // Rotation
         var angleToTarget = getAngleToTarget(targetPosition);
-        Debug.Log("Angle to Target: " + angleToTarget);
+        //Debug.Log("Angle to Target: " + angleToTarget);
         if(angleToTarget != 0)
         {
             var secondsToZeroRotationSpeed = Mathf.Abs(currentRotationalSpeed) / rotationalAcceleration;
@@ -93,7 +94,7 @@ public class shipMovement : MonoBehaviour {
             var rotationAmount = currentRotationalSpeed * Time.deltaTime;
             if (Mathf.Abs(rotationAmount) > Mathf.Abs(angleToTarget))
                 rotationAmount = angleToTarget;
-            else if (Mathf.Abs(rotationAmount) < 0.01)
+            else if (Mathf.Abs(rotationAmount) < 0.1)
                 rotationAmount = 0;
             transform.Rotate(new Vector3(0,0,1), rotationAmount);
         }
@@ -102,7 +103,7 @@ public class shipMovement : MonoBehaviour {
         var secondsToZeroForwardSpeed = currentForwardSpeed / forwardAcceleration;
         var secondsToTargetLocation = distanceToTarget / currentForwardSpeed;
 
-        Debug.Log(secondsToZeroForwardSpeed + "::" + secondsToTargetLocation);
+        //Debug.Log(secondsToZeroForwardSpeed + "::" + secondsToTargetLocation);
 
         if (secondsToZeroForwardSpeed > secondsToTargetLocation) {
             if (movementQueue.Count == 1)
